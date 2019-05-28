@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Quotify
+        </title>
+        <style>
+                .button {
+                  background-color: #4CAF50;
+                  border: none;
+                  color: white;
+                  padding: 4px 6px;
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                  font-size: 13px;
+                  margin: 2px 1px;
+                  cursor: pointer;
+                }
+                .button:hover{
+                    background-color: rgb(0, 129, 4);
+                }
+                textarea {
+                    border: 2px solid rgb(180, 117, 0);;
+                      /* border-color: */
+                      background-color: #f8f8f8;
+                      border-radius: 8px;
+} 
+                </style>
+    </head>
+    <body>
+        <h1 style = "color:#4CAF50"><center>Quotify</center></h1>
+        <h4><center><a href="displayQuote.html">Random Quote API</a>  <span> | </span> <a href = 'randomQuote(local).html'> Random Quote(local)   </a>  <span>  |  </span> <a style="color:#ffad20;">Add Quote </a>  <span>  |   </span>  <a href = 'listQuotes.html'>   List All quotes  </a></center></h4>
+        <div align = 'center'>
+            <form id = 'formHead'>
+                <label>
+                    <br/>
+                        <textarea id = 'quoteHead' placeholder="type the quote" rows='10' cols ='50'></textarea><br/>
+                        <textarea id = 'authorHead' placeholder = 'author name'rows = '2' cols = '50'></textarea><br/>
+                  </label>
+                  <label>
+                      <br/>
+                      <button id = 'saveQuote' class = "button">Save Quote</button>
+                  </label>
+                </form>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.8/uuid.js"></script>
+        <script>
+            const quoteHeadHandle = document.getElementById('quoteHead')
+            const authorHandle = document.getElementById('authorHead')
+            const saveButton = document.getElementById('saveQuote')
+            const formHandle = document.getElementById('formHead')
+
+
+            let quotes = []
+                if(localStorage.getItem('quotes')){
+                    quotes = JSON.parse(localStorage.getItem('quotes'))
+                }
+
+
+            saveButton.addEventListener('click',saveQuote)
+
+            function saveQuote(event){
+                  event.preventDefault()
+                 if(quoteHeadHandle.value && authorHandle.value){
+                quoteObj = {
+                    quote: quoteHeadHandle.value,
+                    author:authorHandle.value,
+                    id:uuid()
+                     }
+                quotes.push(quoteObj)
+                localStorage.setItem('quotes',JSON.stringify(quotes))
+                alert('Quote Added Successfully!')
+                formHandle.reset()
+            }else{
+                alert('Type Quote and Author name')
+             }
+
+            
+            }
+
+
+        </script>
+    </body>          
+ </html>

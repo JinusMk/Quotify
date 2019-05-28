@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Quotify
+        </title>
+        <style>
+            .button {color : white; cursor: pointer; background-color: #4CAF50;} /* Green */
+                .button:hover {background-color: rgb(0, 129, 4);}
+            
+                blockquote {
+                    background-color: rgb(255, 230, 184);
+                    border-radius: 8px;
+                }
+        </style>
+        
+    </head>
+<body>
+        <h1 style = "color:#4CAF50"><center>Quotify</center></h1>
+        <h4><center><a href="displayQuote.html">Random Quote API</a>  <span> | </span> <a href = 'randomQuote(local).html' >  Random Quote(local)   </a>  <span>  |  </span><a href = 'addQuote.html'>   Add Quote   </a>  <span>  |   </span><a style="color:#ffad20;" >List All quotes  </a></center></h4> 
+
+        <div id="quoteList" align = 'center'>
+
+            </div>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.8/uuid.js"></script>
+
+    <script>
+    const divHandle = document.getElementById('quoteList')
+    let quotes = []
+    
+            if(localStorage.getItem('quotes')){
+                quotes = JSON.parse(localStorage.getItem('quotes'))
+                quotes.forEach(function(quote){
+
+                    const blockquote = document.createElement('blockquote')
+                    
+                    createQuote(quote,quote.id,blockquote)
+                    divHandle.appendChild(blockquote)
+                })
+            }
+        else 
+            {
+            const blockquote = document.createElement('blockquote')
+            const p = document.createElement('p')
+            const cite = document.createElement('cite')
+
+            p.textContent = "Internal Storage Empty"
+            cite.textContent = "Developer"
+
+            blockquote.appendChild(p)
+            blockquote.appendChild(cite)
+           
+            divHandle.appendChild(blockquote)
+        }
+
+function createQuote(quote,uuid,blockquote){
+    const buttonDelete = document.createElement('button')
+    const p = document.createElement('p')
+    const cite = document.createElement('cite')
+    const buttonEdit = document.createElement('button')
+    
+
+    buttonDelete.textContent = ' Delete '
+    buttonDelete.style="float:right"
+    buttonDelete.className = "button"
+    
+    p.textContent = quote.quote
+    cite.textContent = quote.author
+   // console.log(quote.author)
+    buttonEdit.textContent = 'Edit'
+    buttonEdit.style = "float:right"
+    buttonEdit.className = "button"
+
+     buttonDelete.addEventListener('click',deleteQuote)
+    buttonEdit.addEventListener('click',editQuote)
+
+    blockquote.appendChild(buttonDelete)
+    blockquote.appendChild(p)
+    blockquote.appendChild(cite)
+    
+    blockquote.appendChild(buttonEdit) 
+
+    blockquote.setAttribute('id', uuid) //setting the id attribute to the blockquote -> id = quote.id 
+}
+
+function deleteQuote(event){
+    if(confirm('Are you sure ?')){
+        const blockquote = event.target.parentElement
+        const id = blockquote.getAttribute('id') 
+        console.log(id)
+        quotes = quotes.filter(function(quote){
+            return quote.id != id
+        })
+        //console.log(quotes)
+        blockquote.remove()
+        localStorage.setItem('quotes',JSON.stringify(quotes))
+
+    }
+}
+
+function editQuote(event){
+const dataId = event.target.parentElement.getAttribute('id')
+const blockquote = document.getElementById(dataId)
+const quote = blockquote.children[1].textContent
+const author = blockquote.children[2].textContent
+
+blockquote.innerHTML = `<textarea class="t-area" rows="12" cols="60">${quote}</textarea><br/>
+                                    <textarea class="t-area" cols="60">${author}</textarea>`
+
+const button = document.createElement('button')
+button.textContent = 'Save'
+button.className = "button"
+button.setAttribute('id','save')
+button.addEventListener('click',saveQuote)
+blockquote.appendChild(button)
+}
+
+function saveQuote(event){
+    
+        const blockquote = event.target.parentElement
+        //console.log(blockquote)
+        const quote = blockquote.children[0].value
+       //console.log(quote)
+        const author = blockquote.children[2].value
+       // console.log(author)
+
+        const id = blockquote.getAttribute('id')
+       // blockquote.innerHTML = ''       
+        if(quote){
+            blockquote.innerHTML = '' //to remove the text box area
+            createQuote({quote,author},id,blockquote)
+        const index = quotes.findIndex(function(quote){
+            return quote.id == id 
+        })
+        quotes.splice(index,1,{id,quote,author}) //3rd arguement is the element to be replaced
+        localStorage.setItem('quotes',JSON.stringify(quotes))
+        }
+        else{
+            alert('OOPS!!! Quote missing !')
+        }
+        
+    
+        
+    
+}
+
+
+
+</script>
+
+
+
+
+</body>

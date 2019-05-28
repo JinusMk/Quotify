@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Quotify
+        </title>
+    </head>
+    <body>
+        <h1><center>Quotify</center></h1>
+        <h4><center><a href="displayQuote.html">Random Quote API</a>  <span> | </span> <a href = 'randomQuote(local).html' >  Random Quote(local)   </a>  <span>  |  </span><a href = 'addQuote.html'>   Add Quote   </a>  <span>  |   </span> List All quotes  </center></h4> 
+
+        <form id ='listForm' >
+       
+        </form>
+        <script>
+        const listHandle = document.getElementById('listForm')
+            let quotes = []
+            if(localStorage.getItem('quotes')){
+                quotes = JSON.parse(localStorage.getItem('quotes'))
+            }
+
+        function buildList(quotes){
+             quotes.forEach(function(quote){
+                const blockQuote = document.createElement('blockquote')
+                 const cite = document.createElement('cite')
+                 const deleteButton = document.createElement('button')
+                 deleteButton.style="float:right"
+                 deleteButton.innerHTML = 'Delete'
+                 deleteButton.id = 'delete'   
+                 
+                 const editButton = document.createElement('button')
+                 
+                 editButton.style = 'float:right'
+                 editButton.innerHTML = 'Edit'
+                 editButton.id = 'edit'
+                 
+                blockQuote.innerHTML =`<br><center>${quote.quote}`
+                if(quote.author){
+                cite.innerHTML =`<center> ${quote.author} `
+                }
+                else{
+                    cite.innerHTML = ''
+                }
+                
+                listHandle.appendChild(blockQuote)
+                blockQuote.appendChild(cite)
+                blockQuote.appendChild(deleteButton)
+                blockQuote.appendChild(editButton)
+               
+                 deleteButton.addEventListener('click',function(e){
+                e.preventDefault()
+                 const blockQuote = e.target.parentNode
+                 const value = blockQuote.textContent.slice(0,(blockQuote.textContent.length - 10))
+                 const x = value.lastIndexOf('"')
+                const newQuote = value.slice(0,x+1)
+               // console.log(newQuote)
+                
+               const item = quotes.find(function(quote){
+
+                    return quote.quote.includes(newQuote)
+                
+                 })
+                
+                console.log(item)
+
+                for(let i = 0; i < quotes.length; i++){
+                   if(quotes[i].quote == item.quote){
+                       quotes.splice(i,1)
+                       break
+                   } 
+                }
+                //console.log(quotes)
+                 listHandle.removeChild(blockQuote)
+                 localStorage.setItem('quotes',JSON.stringify(quotes))
+                // console.log(localStorage)
+                 })
+                
+                
+                 editButton.addEventListener('click',function(e){
+                      e.preventDefault()
+                      const blockQuote = e.target.parentNode
+                      
+                     const value =  blockQuote.textContent.slice(0,(blockQuote.textContent.length - 10))
+                     blockQuote.innerHTML = ''
+                    //console.log(typeof blockQuote.textContent) 
+                     // listHandle.(blockQuote)
+                     // console.log(blockQuote.type)
+                    const q = document.createElement('textarea')
+                    q.rows = 4 ; q.cols = 80
+                    q.style = 'float:center'
+                    //q.setAttribute('align','center')
+                    const saveButton = document.createElement('button')
+                    const cancelButton = document.createElement('button')
+                    cancelButton.innerHTML = 'cancel'
+                    saveButton.innerHTML = 'save'
+
+                      q.innerHTML = value
+                      blockQuote.appendChild(q)
+                     
+                     blockQuote.appendChild(saveButton)
+                     blockQuote.appendChild(cancelButton)
+
+                    saveButton.addEventListener('click',function(e){
+                        e.preventDefault()
+                        const blockQuoteNew = e.target.parentNode
+                        const valueNew = blockQuoteNew.textContent.slice(0,blockQuoteNew.textContent.length - 10) 
+                        
+                        const xnew = valueNew.lastIndexOf('"')
+                         const newQuoteNew = valueNew.slice(0,xnew+1)
+                         console.log(newQuoteNew)
+
+
+                    })
+
+
+})
+
+
+
+            })
+
+            
+        }
+        
+buildList(quotes)
+
+
+
+
+
+   
+
+
+
+        </script>
+            
+
+
+
+
+    </body>
+ </html>

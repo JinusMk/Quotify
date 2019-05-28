@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Quotify
+        </title>
+        <style>
+
+                .button {
+                  background-color: #4CAF50;
+                  border: none;
+                  color: white;
+                  padding: 10px 15px;
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                  font-size: 13px;
+                  margin: 2px 1px;
+                  cursor: pointer;
+                }
+                .button:hover{
+                    background-color: rgb(0, 129, 4);
+                }
+                blockquote {
+                    background-color: rgb(255, 230, 184);
+                    border-radius: 8px;
+                  
+                }
+                .success {color : white; cursor: pointer; background-color: #4CAF50;} /* Green */
+                .success:hover {background-color: rgb(0, 129, 4);}
+                </style>
+    </head>
+    <body>
+        <h1 style = "color:#4CAF50"><center>Quotify</center></h1>
+        <h4><center><a style="color:rgba(255, 136, 0, 0.808)"> Random Quote API </a><span> | </span> <a href = 'randomQuote(local).html' >  Random Quote(local)   </a>  <span>  |  </span><a href = 'addQuote.html'>   Add Quote   </a>  <span>  |   </span>  <a href= 'listQuotes.html'>   List All quotes  </a></center></h4>
+        <div align = 'center'>
+            <!-- <span id = 'quote'></span>
+            <br/>
+            <span id = 'author'></span>
+            <br/> -->
+            <blockquote>
+                <br/>
+                <p id = 'quote'></p>
+                <cite id = 'author'></cite>
+                <br/>
+                <br/>
+            </blockquote>
+        </div>
+        <div align = 'right'>
+            <button  id = 'save' class = "success" align = 'left'>save</button>
+        </div>  
+        
+        <!-- <center><button id = 'getQuote' style="background-color:rgb(215, 221, 214)" >Get Another Quote</button></center> -->
+       <center><button id = 'getQuote' class = "button">Get Aother Quote</button></center>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.8/uuid.js"></script>
+
+        <script>
+        const quoteHandle = document.getElementById('quote')
+        const auhtorHandle = document.getElementById('author')
+        const btnHandle = document.getElementById('getQuote')
+        const saveButtonHandle = document.getElementById('save')
+        let quotes
+        if(localStorage.getItem('quotes')){
+            quotes = JSON.parse(localStorage.getItem('quotes'))
+        }else{
+            localStorage.setItem('quotes',JSON.stringify([]))
+            quotes = JSON.parse(localStorage.getItem('quotes'))
+        }
+
+      function generateQuote(){
+        saveButtonHandle.disabled = false
+        saveButtonHandle.innerHTML = 'Save'
+         const xhr =new XMLHttpRequest()
+        xhr.open('GET','https://cors-anywhere.herokuapp.com/https://opinionated-quotes-api.gigalixirapp.com/v1/quotes')
+        xhr.send()
+        xhr.onload = function(){
+         const quote = JSON.parse(xhr.responseText)
+            // console.log(quote.quotes[0].quote)
+            // console.log(quote.quotes[0].author)
+              quoteHandle.innerHTML = quote.quotes[0].quote //<br/><center> ~ ${quote.quoteAuthor}</center>`
+            
+            if(quote.quotes[0].author){
+                auhtorHandle.textContent = quote.quotes[0].author
+            } else
+            auhtorHandle.textContent = ''
+          }
+        }
+
+        generateQuote()
+  
+        saveButtonHandle.addEventListener('click',function(e){
+            saveButtonHandle.disabled = true
+            saveButtonHandle.innerHTML = 'Saved'
+            
+                let quoteObj = {
+                    //qid:Number(new Date),
+           quote:quoteHandle.innerHTML,
+            author: auhtorHandle.innerHTML,
+            id:uuid()
+                }
+                console.log(quoteObj.id)
+            quotes.push(quoteObj)
+            console.log(localStorage)
+            console.log(quotes)
+
+            localStorage.setItem('quotes',JSON.stringify(quotes)) //writes back in to localStorage
+         })
+            
+         btnHandle.addEventListener('click',function(e){
+            e.preventDefault()
+            generateQuote()
+        })
+
+        
+        </script>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Quotify
+        </title>
+        <style>
+                .button {
+                  background-color: #4CAF50;
+                  border: none;
+                  color: white;
+                  padding: 10px 15px;
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                  font-size: 13px;
+                  margin: 2px 1px;
+                  cursor: pointer;
+                }
+                .button:hover{
+                    background-color: rgb(0, 129, 4);
+                }
+                blockquote {
+                    background-color: rgb(255, 230, 184);
+                    border-radius: 8px;
+                }
+                </style>
+    </head>
+    <body>
+        <h1 style = "color:#4CAF50"><center>Quotify</center></h1>
+        <h4><center><a href="displayQuote.html">Random Quote API</a>  <span> | </span> <a style="color:#ffad20;"> Random Quote(local)   </a>  <span>  |  </span><a href = 'addQuote.html'>   Add Quote   </a>  <span>  |   </span>  <a href= 'listQuotes.html'>   List All quotes  </a></center></h4>
+        <div align = 'center'>
+            <blockquote>
+                <br/>
+                <P id = 'quote'></P>
+                <cite id = 'author'></cite>
+                <br/>
+                <br/>
+            </blockquote>
+        </div>
+        <center><button id = 'getQuote' class = "button">Get Another Quote</button></center>
+        <script>
+        const quoteHandle = document.getElementById('quote')
+        const auhtorHandle = document.getElementById('author')
+        const btnHandle = document.getElementById('getQuote')
+            let quotes 
+        function displayQuote(){
+            if(localStorage.getItem('quotes'))
+            quotes = JSON.parse(localStorage.getItem('quotes'))
+            else
+        {
+            localStorage.setItem('quotes',JSON.stringify([]))
+            quotes = JSON.parse(localStorage.getItem('quotes'))
+        }
+       // console.log(quotes[0])
+        let len = quotes.length 
+        if(len >0){
+        const i = Math.floor(Math.random()*len)
+        quoteHandle.innerHTML = quotes[i].quote
+        if(quotes[i].author)
+                auhtorHandle.innerHTML = quotes[i].author
+        else
+                auhtorHandle.innerHTML = '<br/>'
+        }else{
+            quoteHandle.textContent = 'Internal storage empty'
+            // auhtorHandle.textContent = 'Developer'
+        }
+        }
+
+        displayQuote()
+
+        btnHandle.addEventListener('click',displayQuote)
+     
+            
+        </script>
+        
+    </body>
+        
+    </html>
