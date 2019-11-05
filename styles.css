@@ -92,3 +92,32 @@ color: #071822;
 background-color: #009b7c;
 color: #fff;
 }
+.form-wrapper{
+    padding: 20px;
+}
+.form-wrapper form{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+.form-wrapper .label-wrapper{
+    margin-bottom: 10px;
+    font-family: Roboto 
+}
+.form-wrapper textarea{
+    border: 2px solid #a1a1a1;
+    padding: 10px 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    margin-bottom: 20px;
+    font-family: Roboto Condensed;
+    border-radius: 5px;
+}
+.form-wrapper textarea:hover{
+    box-shadow: 0 6px 6px 0 rgba(0, 171, 173, 0.09);
+    border: 2px solid #071822
+}
+.form-wrapper textarea:focus{
+    border: 2px solid #009B7C;
+}

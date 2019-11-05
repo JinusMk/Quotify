@@ -7,20 +7,27 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <h1 style = "color:#4CAF50"><center>Quotify</center></h1>
-        <h4><center><a href="displayQuote.html">Random Quote API</a>  <span> | </span> <a href = 'randomQuote(local).html'> Random Quote(local)   </a>  <span>  |  </span> <a style="color:#ffad20;">Add Quote </a>  <span>  |   </span>  <a href = 'listQuotes.html'>   List All quotes  </a></center></h4>
-        <div align = 'center'>
-            <form id = 'formHead'>
-                <label>
-                    <br/>
-                        <textarea id = 'quoteHead' placeholder="type the quote" rows='10' cols ='50'></textarea><br/>
-                        <textarea id = 'authorHead' placeholder = 'author name'rows = '2' cols = '50'></textarea><br/>
-                  </label>
-                  <label>
-                      <br/>
-                      <button id = 'saveQuote' class = "button">Save Quote</button>
-                  </label>
+        <div class="layout">
+            <h2>QUOTIFY</h2>
+            <div class="topnav">
+                    <a href="displayQuote.html">Random Quote API</a>
+                    <a href = 'randomQuote(local).html'>Random Quote(local)</a>
+                    <a class="active" href = '#'>Add Quote</a>
+                    <a href= 'listQuotes.html'>   List All quotes  </a>
+            </div>
+            <div class="form-wrapper">
+                <form id = "formHead">
+                    <div class="label-wrapper">
+                        <label>Quote</label>
+                    </div>
+                        <textarea id = 'quoteHead' placeholder="type the quote here..." rows='10' cols ='50'></textarea>
+                    <div class="label-wrapper">
+                        <label>Author</label>
+                    </div>
+                        <textarea id = 'authorHead' placeholder = 'author name'rows = '2' cols = '50'></textarea>
+                    <input type="submit" value="Save Quote" id = 'saveQuote' class = "button"></input>
                 </form>
+            </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.8/uuid.js"></script>
         <script>
@@ -53,11 +60,7 @@
             }else{
                 alert('Type Quote and Author name')
              }
-
-            
             }
-
-
         </script>
     </body>          
  </html>
