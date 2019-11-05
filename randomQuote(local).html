@@ -7,18 +7,25 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <h1 style = "color:#4CAF50"><center>Quotify</center></h1>
-        <h4><center><a href="displayQuote.html">Random Quote API</a>  <span> | </span> <a style="color:#ffad20;"> Random Quote(local)   </a>  <span>  |  </span><a href = 'addQuote.html'>   Add Quote   </a>  <span>  |   </span>  <a href= 'listQuotes.html'>   List All quotes  </a></center></h4>
-        <div align = 'center'>
-            <blockquote>
-                <br/>
-                <P id = 'quote'></P>
-                <cite id = 'author'></cite>
-                <br/>
-                <br/>
-            </blockquote>
+        <div class="layout">
+                <h2>QUOTIFY</h2>
+                <div class="topnav">
+                        <a href="displayQuote.html">Random Quote API</a>
+                        <a class="active" href = '#'>Random Quote(local)</a>
+                        <a href = 'addQuote.html'>Add Quote</a>
+                        <a href= 'listQuotes.html'>   List All quotes  </a>
+                </div>
+                <div class="blockquote">
+                    <blockquote>
+                        <p id = 'quote'></p>
+                        <cite id = 'author'></cite>
+                    </blockquote>
+                    <img src='./save.png' id="save" />
+                </div>
+                <div class="get-quote">
+                    <button id = 'getQuote' class = "button">Get Aother Quote</button>
+                </div>
         </div>
-        <center><button id = 'getQuote' class = "button">Get Another Quote</button></center>
         <script>
         const quoteHandle = document.getElementById('quote')
         const auhtorHandle = document.getElementById('author')
